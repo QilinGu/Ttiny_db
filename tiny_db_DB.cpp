@@ -13,9 +13,6 @@ namespace tiny_db{
 	DB::DB() :isCompact(false){
 		memtable = new Memtable();
 		immutable_table = new Memtable();
-		if (_access("\\bptree", 0) == -1){
-			_mkdir("\\bptree");
-		}
 		bptree = new BPTree();
 	}
 
@@ -27,28 +24,32 @@ namespace tiny_db{
 
 	std::string DB::getValue(std::string k){
 		std::string s = memtable->getValue(k);
-		if (k != "") return s;
+		if (s != "") return s;
 		s = immutable_table->getValue(k);
-		if (k != "") return s;
+		if (s != "") return s;
 		keyType key(k.c_str());
 		keyType value;
 		bptree->searchKeyfromTree(key, value);
-		return s;
+		return value.k;
 	}
 
 	void DB::dumpTableToDisk(Memtable& immutable_table){
 		isCompact = true;
-		auto node=immutable_table.table->getHead();
-		while (node.next_[0]){
-			keyType key(node.key.c_str());
-			keyType value(node.value.c_str());
-			bptree->insertRecordToTree(key,value);
-			node = *node.next_[0];
+		auto node=&immutable_table.table->getHead();
+
+		while (node->next_[0]){
+			skipnode* temp = node;
+			node = node->next_[0];
+			keyType key(node->key.c_str());
+			keyType value(node->value.c_str());
+			bptree->insertRecordToTree(bptree->root, bptree->root,key, value);
+
 		}
 		immutable_table.~Memtable();
 		isCompact = false;
 
 	}
+
 
 	void DB::insert(std::string k, std::string v){
 		memtable->addKeyValuePairs(k, v);
@@ -64,7 +65,7 @@ namespace tiny_db{
 			immutable_table->deleteKey(k);
 		}
 		keyType key(k.c_str());
-		bptree->deleteRercordFromTree(key);
+		bptree->deleteRercordFromTree(bptree->root,bptree->root,key);
 				
 	}
 
