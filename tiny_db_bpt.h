@@ -41,13 +41,13 @@ namespace tiny_db{
 	// b+tree
 	class BPTree{
 	private:
-		FType root;
 		FType head;
 		FILE*  curFile;
 		unsigned long long leafNum;
 		// no copying allowed;
 		BPTree(BPTree&);
 		BPTree operator =(BPTree&);
+		int height;
 	public:
 		FType getAddress()const;
 		BPTree();
@@ -63,18 +63,18 @@ namespace tiny_db{
 		//else do nothing
 		void searchKeyfromTree(keyType& k,keyType& v);
 		//insert record to BPTree
-		void insertRecordToTree(keyType& k, keyType& v);
+		void insertRecordToTree(FType ttt, FType fff, keyType& k, keyType& v);
 		//delete record from BPTree
-		void deleteRercordFromTree(keyType& k);
+		void deleteRercordFromTree(FType fff, FType ttt, keyType& k);
 		//borrow key from neigborhood
 		void borrowKeyFromNeighbour(bptNode& parent, bptNode& child, size_t c_index);
 		//split node
-		void splitNode(bptNode& parent, bptNode& child, size_t c_index);
+		void splitNode(bptNode& parent, bptNode& child, int c_index);
 		//find the key less than specified key
 		int findNodeIndex(bptNode& b, keyType& k)const;
 		// merge two nodes
 		void mergeTwoNodes(bptNode& parent, bptNode& pchild, bptNode& qchild, size_t p_index);
-
+		FType root;
 	};
 }//namespace tiny_db
 #endif
