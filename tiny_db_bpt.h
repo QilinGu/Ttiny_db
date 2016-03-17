@@ -75,6 +75,7 @@ namespace tiny_db{
 		// merge two nodes
 		void mergeTwoNodes(bptNode& parent, bptNode& pchild, bptNode& qchild, size_t p_index);
 		FType root;
+		
 	};
 }//namespace tiny_db
 #endif
