@@ -62,9 +62,8 @@ namespace tiny_db{
 
 	
 	inline int Skiplist::randomHeight(){
-		randomLevel = (16807L * randomLevel) % ((1<<31) - 1);
+		randomLevel = (16807L * randomLevel) % ((1<<16) - 1);
 		randomLevel = randomLevel % maxHeight + 1;
-		std::cout << randomLevel<<std::endl;
 		assert(randomLevel <= maxHeight);
 		assert(randomLevel >= 1);
 		return randomLevel;
