@@ -14,7 +14,7 @@ namespace tiny_db{
 		Memtable* memtable;
 		Memtable* immutable_table;
 		BPTree* bptree;
-		size_t maxNum=500000;
+		size_t maxNum=50000;
 		bool isCompact;
 		//no copying allowed
 		DB(DB&);
