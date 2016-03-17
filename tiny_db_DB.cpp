@@ -43,7 +43,7 @@ namespace tiny_db{
 			keyType key(node->key.c_str());
 			keyType value(node->value.c_str());
 			bptree->insertRecordToTree(bptree->root, bptree->root,key, value);
-
+ 
 		}
 		immutable_table.~Memtable();
 		isCompact = false;
