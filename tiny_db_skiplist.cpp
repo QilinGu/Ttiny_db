@@ -1,6 +1,4 @@
 
-
-#include<iostream>
 #include<utility>
 #include"tiny_db_skiplist.h"
 
@@ -17,12 +15,30 @@ namespace tiny_db{
 			level--;
 		}
 		temp = temp->next_[0];
-		assert(temp != nullptr);
-		if (temp->key != key){
-			return 0;
+
+		if (temp == nullptr||temp->key != key){
+			return "";
 		}
 		return temp->value;
 	}
+
+
+
+	Skiplist::Skiplist(){
+		maxHeight = 12;
+		head = *new skipnode();
+		setHeight(0);
+		randomLevel = 1;
+		for (int i = 0; i < maxHeight; i++){
+			head.next_[i] = nullptr;
+		}
+	}
+
+
+	skipnode* Skiplist::findLessThan(const std::string key,
+					skipnode* cur, int level)const{
+
+		assert(level >= 0);
 
 		skipnode* temp = cur;
 
@@ -30,10 +46,8 @@ namespace tiny_db{
 			
 			if (temp->next_[level]->key < key){
 					temp = temp->next_[level];
-					std::cout << "A";
 			}
 			else{
-				std::cout << "B";
 				break;
 			}
 		}
@@ -45,7 +59,6 @@ namespace tiny_db{
 		int height_ = randomHeight() - 1;
 		int i=getHeight() - 1;
 		if (height_ > getHeight() - 1){
-			std::cout << "sa";
 			for (i = height_; i >= getHeight(); i--){
 				head.next_[i] = &s;
 				s.next_[i] = nullptr;
@@ -54,7 +67,7 @@ namespace tiny_db{
 		}
 		skipnode* temp = const_cast<skipnode*>(&head);
 		while(i >= 0){
-			std::cout << "pa";
+
 			temp = findLessThan(s.key, temp, i);
 			s.next_[i] = temp->next_[i];
 			temp->next_[i] = &s;
@@ -79,10 +92,10 @@ namespace tiny_db{
 		int success = 0;
 		size_t level = getHeight();
 		skipnode* temp = const_cast<skipnode*>(&head), 
-				*t = nullptr;
+				* t = nullptr;
 		while (--level){
 			temp = findLessThan(key, temp, level);
-			if (temp->next_[level]->key == key){
+			if (temp->next_[level]!=nullptr&&temp->next_[level]->key == key){
 				if (level == 0){
 					t = temp->next_[0];
 					success = 1;
