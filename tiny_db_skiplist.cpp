@@ -24,24 +24,6 @@ namespace tiny_db{
 		return temp->value;
 	}
 
-
-
-	Skiplist::Skiplist(){
-		maxHeight = 12;
-		head = *new skipnode();
-		setHeight(0);
-		randomLevel = 1;
-		for (int i = 0; i < maxHeight; i++){
-			head.next_[i] = nullptr;
-		}
-	}
-
-
-	skipnode* Skiplist::findLessThan(const std::string key,
-							skipnode* cur, int level)const{
-
-		assert(level >= 0);
-
 		skipnode* temp = cur;
 
 		while (temp->next_[level] != nullptr){
