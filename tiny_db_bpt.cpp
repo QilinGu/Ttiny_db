@@ -34,7 +34,7 @@ namespace tiny_db{
 
 	void BPTree::writeNodeToDisk(const FType address, bptNode& b){
 		_fseeki64(curFile, address, SEEK_SET);
-		fwrite(&b, sizeof(bptNode), 1, curFile); 
+		fwrite(&b, sizeof(bptNode), 1, curFile);
 	}
 
 	void BPTree::readNodeFromDisk(const FType address, bptNode& b){

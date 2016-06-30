@@ -1,5 +1,6 @@
-#include"tiny_db_memtable.h"
-#include"tiny_db_skiplist.h"
+#include "tiny_db_memtable.h"
+#include "tiny_db_skiplist.h"
+
 
 
 namespace tiny_db{
@@ -9,7 +10,6 @@ namespace tiny_db{
 
 	//the implement of class Memtable
 
-	
 
 	void Memtable::addKeyValuePairs(std::string key, std::string value){
 		skipnode* s = new skipnode(key,value);
