@@ -5,7 +5,12 @@
 
 namespace tiny_db{
 
-	FType BPTree::getAddress()const{
+	FType BPTree::getAddress(){
+        if (!addressStack.empty()){
+            FType tmp = addressStack.top();
+            addressStack.pop();
+            return tmp;
+        }
 		_fseeki64(curFile, 0, SEEK_END);
 		return _ftelli64(curFile);
 	}
@@ -379,6 +384,7 @@ namespace tiny_db{
 			if (memcmp(e.child[i].k, k.k, 30) != 0){
 				return;
 			}
+            addressStack.push(e.point[i]);
 			for (int index = i; index < e.nums - 1; index++){
 				e.child[index] = e.child[index + 1];
 				e.point[index] = e.point[index + 1];

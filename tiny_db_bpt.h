@@ -1,10 +1,14 @@
 #ifndef _TINY_DB_BPT_H_
 #define _TINY_DB_BPT_H_
 
-#include<string>
-#include<cassert>
+#include <string>
+#include <cassert>
+#include <stack>
 
 namespace tiny_db{
+
+    using std::stack;
+
 	enum NODE_TYPE{INTERNAL,LEAF};
 	typedef int nodeType;
 	typedef long long FType;
@@ -48,8 +52,10 @@ namespace tiny_db{
 		BPTree(BPTree&);
 		BPTree operator =(BPTree&);
 		int height;
+    protected:
+        stack<FType> addressStack;
 	public:
-		FType getAddress()const;
+		FType getAddress();
 		BPTree();
 		~BPTree();
 		//read a specified node from disk
